@@ -6,6 +6,7 @@ import javax.persistence.*;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+
 @Entity
 public class Actor 
 {
@@ -21,7 +22,7 @@ public class Actor
     {
         this.actorName = actorName;
         this.income = income;
-		this.contact = contact;
+        this.contact = contact;
     }
    
     @Id
@@ -82,17 +83,85 @@ public class Actor
     {
         Session session = HibernateContext.getSession();
         
+        Actor adam = new Actor("Adam DeVine", 1200000, 
+                                     new ContactInfo("Waterloo, Iowa", new Date(1984,11,7), "aDeVine@moviestar.com"));
+        Actor christian = new Actor("Christian Bale", 20000000, 
+                                     new ContactInfo("Pembrokeshire, Wales", new Date(1974,1,30), "cBale@moviestar.com"));
+        Actor daniel = new Actor("Daniel Radcliffe", 2200000, 
+                                     new ContactInfo("London, England", new Date(1989,7,23), "dRadcliffe@moviestar.com"));
+        Actor joseph = new Actor("Joseph Gordon Levitt", 3200000, 
+                                     new ContactInfo("Los Angeles, CA", new Date(1981,2,17), "JGL@moviestar.com"));
+        Actor katherine = new Actor("Katherine Heigl", 1200000, 
+                                     new ContactInfo("Washington, DC", new Date(1978,11,24), "kHeigel@moviestar.com"));
+        Actor sacha = new Actor("Sacha Baron Cohen", 2000000, 
+                                     new ContactInfo("London, England", new Date(1971,10,13), "sCohen@moviestar.com"));
+        Actor will = new Actor("Will Smith", 50000000, 
+                                     new ContactInfo("Philadelphia, Pennsylvania", new Date(1968,9,24), "wSmith@moviestar.com"));
+        
+        
+        Movie pitchPerfect = Movie.getMovie("Pitch Perfect");
+        Movie TDKR = Movie.getMovie("The Dark Knight Rises");
+        Movie batmanBegins = Movie.getMovie("Batman Begins");
+        Movie harryPotter = Movie.getMovie("Harry Potter and the Goblet of Fire");
+        Movie womanInBlack = Movie.getMovie("Woman In Black");
+        Movie premiumRush = Movie.getMovie("Premium Rush");
+        Movie onefortheMONEY = Movie.getMovie("One for the Money");
+        Movie theDictator = Movie.getMovie("The Dictator");
+        Movie menInBlack3 = Movie.getMovie("Men in Black 3");
+        
+        adam.getMovies().add(pitchPerfect);
+        christian.getMovies().add(TDKR);
+        christian.getMovies().add(batmanBegins);
+        daniel.getMovies().add(harryPotter);
+        daniel.getMovies().add(womanInBlack);
+        joseph.getMovies().add(TDKR);
+        joseph.getMovies().add(premiumRush);
+        katherine.getMovies().add(onefortheMONEY);
+        sacha.getMovies().add(theDictator);
+        will.getMovies().add(menInBlack3);
+        
         // Load the Student table in a transaction.
         Transaction tx = session.beginTransaction();
         {
-            session.save(new Actor("Mary Jane", 1200000, 
-                                     new ContactInfo("Miami, Florida", new Date(1992,5,13), "mjane@sjsu.edu")));
+            /*session.save(new Actor("Adam DeVine", 1200000, 
+                                     new ContactInfo("Waterloo, Iowa", new Date(1984,11,7), "aDeVine@moviestar.com")));
+            session.save(new Actor("Christian Bale", 20000000, 
+                                     new ContactInfo("Pembrokeshire, Wales", new Date(1974,1,30), "cBale@moviestar.com")));
+            session.save(new Actor("Daniel Radcliffe", 2200000, 
+                                     new ContactInfo("London, England", new Date(1989,7,23), "dRadcliffe@moviestar.com")));
+            session.save(new Actor("Joseph Gordon Levitt", 3200000, 
+                                     new ContactInfo("Los Angeles, CA", new Date(1981,2,17), "JGL@moviestar.com")));
+            session.save(new Actor("Katherine Heigl", 1200000, 
+                                     new ContactInfo("Washington, DC", new Date(1978,11,24), "kHeigel@moviestar.com")));
+            session.save(new Actor("Sacha Baron Cohen", 2000000, 
+                                     new ContactInfo("London, England", new Date(1971,10,13), "sCohen@moviestar.com")));
+            session.save(new Actor("Will Smith", 50000000, 
+                                     new ContactInfo("Philadelphia, Pennsylvania", new Date(1968,9,24), "wSmith@moviestar.com")));*/
+            
+            session.save(adam);
+            session.save(christian);
+            session.save(daniel);
+            session.save(joseph);
+            session.save(katherine);
+            session.save(sacha);
+            session.save(will);
         }
         tx.commit();
         session.close();
 
            System.out.println("Actor table loaded.");
 }
+     public static Actor find(String name){
+         
+        Session session = HibernateContext.getSession();
+        org.hibernate.Query query = session.createQuery("from Actor where actorName = :name");
+
+        query.setString("name", name);
+        Actor act = (Actor) query.uniqueResult();
+
+        session.close();
+        return act;
+     }
 
    
 }

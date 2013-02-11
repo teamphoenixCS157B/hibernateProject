@@ -87,7 +87,13 @@ public class Studio
         // Load the Student table in a transaction.
         Transaction tx = session.beginTransaction();
         {
-            session.save(new Studio("DreamWorks", "www.dreamworks.com" , 50000000 , 1990));
+            session.save(new Studio("20th Centrury Fox", "www.foxmovies.com" , 100000 , 1935));
+            session.save(new Studio("CBS Films", "www.CBSFilms.com" , 2000000 , 2007));
+            session.save(new Studio("Columbia Pictures", "www.Sonypictures.com" , 50000000 , 1918));
+            session.save(new Studio("Lionsgate", "www.lionsgate.com" , 63000000 , 1997));
+            session.save(new Studio("Paramount Pictures", "www.paramount.com" , 300000000 , 1912));
+            session.save(new Studio("Universal Pictures", "www.universalstudios.com" , 27000000 , 1912));
+            session.save(new Studio("Warner Bros. Pictures", "www.warnerbros.com" , 1200000000 , 1918));
         }
         tx.commit();
         session.close();
